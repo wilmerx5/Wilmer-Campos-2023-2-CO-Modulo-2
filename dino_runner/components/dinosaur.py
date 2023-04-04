@@ -69,6 +69,5 @@ class Dinosaur(Sprite):
         self.dino_rect.y=self.Y_POST+22
         self.step_index+=1
 
-
-
+    
 #agacharse
