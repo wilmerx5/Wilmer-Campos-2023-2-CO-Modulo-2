@@ -22,7 +22,10 @@ class ObstacleManager:
 
             if game.player.dino_rect.colliderect(obstacle.rect):
                 game.death_count+=1
-                game.score=0
+                game.game_score.update()
+                # game.scores.append(game.score)
+                # game.current_score=game.score
+                # game.score=0
                 game.playing=False
                 break
 

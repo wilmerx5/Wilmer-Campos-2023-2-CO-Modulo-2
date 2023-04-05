@@ -9,7 +9,7 @@ class Cactus(Obstacle):
         self.type=random.randint(0,2)
 
         super().__init__(image,self.type)
-        self.rect.y=330 if self.image==LARGE_CACTUS else 325
+        self.rect.y=300 if self.image==LARGE_CACTUS else 325
 
       
 
