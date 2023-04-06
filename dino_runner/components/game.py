@@ -5,7 +5,7 @@ from dino_runner.components.power_ups.power_up_manager import PowerUpManager
 from dino_runner.components.score import Score
 import pygame
 
-from dino_runner.utils.constants import BG, DEFAULT_TYPE, FONT_STYLE, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, DUCKING
+from dino_runner.utils.constants import BG, DEFAULT_TYPE, FONT_STYLE, HAMMER_TYPE, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, DUCKING
 
 
 class Game:
@@ -57,19 +57,23 @@ class Game:
 
     def update(self):
         user_input=pygame.key.get_pressed()
-        self.player.update(user_input)
+        self.player.update(user_input,self)
         self.obstacle_manager.update(self)
         self.game_score.update_score()
-        self.power_up_manager.update(self)
+        self.power_up_manager.update(self,user_input)
 
     def draw(self):
         self.clock.tick(FPS)
         self.screen.fill((255, 255, 255))
         self.draw_background()
-        self.player.draw(self.screen)
+        user_input=pygame.key.get_pressed()
+        self.player.draw(self.screen,self,user_input)
+        # self.player.draw_hammer_launch(self.screen) 
         self.obstacle_manager.draw(self.screen)
         self.power_up_manager.draw(self.screen)
         self.draw_power_up()
+            
+
         self.game_score.draw(self.screen)
         pygame.display.update()
         pygame.display.flip()   
@@ -90,14 +94,16 @@ class Game:
         if self.player.has_power_up:
             time_to_show= round((self.player.power_up_time-pygame.time.get_ticks())/1000,2)
             if time_to_show>0:
-                font= pygame.font.Font(FONT_STYLE,30)
-                text= font.render(f"{self.player.type} enable for {time_to_show} seconds",True, (0,213,192))
-                text_rect= text.get_rect()
+                if self.player.type != DEFAULT_TYPE:
+                    font= pygame.font.Font(FONT_STYLE,30)
+                    text= font.render(f"{self.player.type} enable for {time_to_show} seconds",True, (0,213,192))
+                    text_rect= text.get_rect()
                 # text_rect.center=(half_screen_witdh,self.half_screen_height)
                 # self.menu.draw(self.screen,f"{self.player.type} enable for {time_to_show} seconds",500,50)
-                self.screen.blit(text,(400,60))
+                    self.screen.blit(text,(400,60))
             
             else:
+                self.power_up_manager.hammer=[]
                 self.player.has_power_up=False
                 self.player.type=DEFAULT_TYPE
     # def reset_game(self):

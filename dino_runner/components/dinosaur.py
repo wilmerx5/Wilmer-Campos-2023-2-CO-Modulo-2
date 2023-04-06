@@ -1,6 +1,7 @@
+# from dino_runner.components.power_ups.hammer import Hammer
 import pygame
 from pygame.sprite import Sprite
-from dino_runner.utils.constants import DEFAULT_TYPE, HAMMER_TYPE,SHIELD_TYPE, RUNNING,RUNNING_HAMMER,RUNNING_SHIELD , JUMPING,JUMPING_HAMMER,JUMPING_SHIELD, DUCKING,DUCKING_HAMMER,DUCKING_SHIELD
+from dino_runner.utils.constants import DEFAULT_TYPE, HAMMER_TYPE,SHIELD_TYPE, RUNNING,RUNNING_HAMMER,RUNNING_SHIELD , JUMPING,JUMPING_HAMMER,JUMPING_SHIELD, DUCKING,DUCKING_HAMMER,DUCKING_SHIELD,HAMMER
 
 
 RUN_IMAGE={DEFAULT_TYPE:RUNNING, HAMMER_TYPE:RUNNING_HAMMER,SHIELD_TYPE:RUNNING_SHIELD}
@@ -25,8 +26,9 @@ class Dinosaur(Sprite):
         self.dino_duck=False
         self.has_power_up=False
         self.power_up_time=0
+        self.image_hammer=HAMMER
 
-    def update(self,user_input):
+    def update(self,user_input,game):
 
 
         if self.dino_run:
@@ -35,11 +37,16 @@ class Dinosaur(Sprite):
             self.jump()
         elif self.dino_duck:
             self.duck()
-        if user_input[pygame.K_UP] and not self.dino_jump  :
-            
+
+        # if self.type == HAMMER_TYPE:
+        #     if user_input[pygame.K_SPACE]:
+        #         self.type=DEFAULT_TYPE
+        if user_input[pygame.K_UP] and not self.dino_jump :
             self.dino_jump=True
             self.dino_run=False
-
+        
+        
+                
         elif user_input[pygame.K_DOWN] and not self.dino_jump:
             self.dino_duck=True
             self.dino_run=False
@@ -47,17 +54,16 @@ class Dinosaur(Sprite):
         elif not self.dino_jump:
             self.dino_jump=False
             self.dino_run=True
-
-        # elif not self.dino_duck:
-        #     self.dino_duck=False
-        #     self.dino_run=True
+        
+    
 
         if self.step_index>9:
             self.step_index=0
 
-    def draw(self,screen):
+    def draw(self,screen,game, user_input):
         screen.blit(self.image,(self.dino_rect.x,self.dino_rect.y))
-        
+
+
     def run(self):
         self.image=RUN_IMAGE[self.type][self.step_index//5]
         self.dino_rect=self.image.get_rect()

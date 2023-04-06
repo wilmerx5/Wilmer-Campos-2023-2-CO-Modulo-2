@@ -20,21 +20,28 @@ class ObstacleManager:
         for obstacle in self.obstacles:
             obstacle.update(game.game_speed,self.obstacles)
 
+    
             if game.player.dino_rect.colliderect(obstacle.rect):
-
                 if game.player.type !=  SHIELD_TYPE:
 
                     game.death_count+=1
                     game.game_score.update()
-                # game.player.dino_jump=False
-                # game.scores.append(game.score)
-                # game.current_score=game.score
-                # game.score=0
+           
+                    game.power_up_manager.hammer=[]
+                    game.player.type=DEFAULT_TYPE
                     game.playing=False
                     break
                 else:
+                    # game.power_up_manager.reset_power_ups()
+                    
                     self.reset_obstacles()
                     
+                
+            if len(game.power_up_manager.hammer)==1:
+                if obstacle.rect.colliderect(game.power_up_manager.hammer[0].rect):
+                    self.reset_obstacles()
+                    game.power_up_manager.hammer=[]
+                
 
 
 
