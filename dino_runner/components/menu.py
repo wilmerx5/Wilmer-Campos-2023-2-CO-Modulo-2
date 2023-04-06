@@ -15,8 +15,8 @@ class Menu:
         self.handle_events_on_menu(game)
         pygame.display.update()
     
-    # def draw(self,screen):
-    #     screen.blit(self.text,self.text_rect)
+    def draw(self,screen):
+        screen.blit(self.text,self.text_rect)
     
     
     def handle_events_on_menu(self,game):

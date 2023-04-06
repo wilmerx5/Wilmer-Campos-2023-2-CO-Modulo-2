@@ -22,7 +22,7 @@ class Score():
             self.text_rect.center=(550,(SCREEN_HEIGHT//2)+50)
             screen.blit(self.text,self.text_rect)
         else:
-            self.text= self.font.render(f"Score: {self.score}",True, (255,130,115))
+            self.text= self.font.render(f"Score: {self.score} ",True, (255,130,115))
             self.text_rect= self.text.get_rect()
             self.text_rect.center=(1000,50)
             screen.blit(self.text,self.text_rect)
